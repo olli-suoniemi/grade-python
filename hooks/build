@@ -21,7 +21,7 @@ if [ "$full" != "latest" ]; then
 fi
 
 : > tags.txt
-for layer in "" "math" "bokeh" "rdf"; do
+for layer in "" "math" "rdf"; do
     if [ "$layer" ]; then
         tag="$layer-$full"
         file="Dockerfile.$layer"
