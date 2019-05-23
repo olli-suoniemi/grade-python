@@ -1,0 +1,15 @@
+test_groups:
+    - module: local_tests
+      description: Local tests
+    - module: grader_tests
+      description: Grader tests
+
+validation:
+    display_name: Input validation
+    tasks:
+        - type: python_import
+          file: primes.py
+          display_name: "The file is a Python module that can be imported"
+        - type: python_syntax
+          file: primes.py
+          display_name: "The module contains valid Python syntax"
