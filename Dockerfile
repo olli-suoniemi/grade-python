@@ -18,3 +18,4 @@ RUN apt_install \
  && find /usr/local/lib/python* -type d -name 'tests' -print0 | xargs -0 rm -rf
 
 COPY bin /usr/local/bin
+CMD ["run-all-unittests"]
