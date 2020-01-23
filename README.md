@@ -15,8 +15,8 @@ For an example, `3.5-2.0u1` includes Python 3.5 on top of grading-base 2.0 and h
 There is also few additional versions of the image:
 
  * `math-*` includes python packages matplotlib, scipy and numpy on top of the base
- * `bokeh-*` includes python package bokeh on top of the base
  * `rdf-*` includes python package rdflib on top of the base
+ * `xls-*` includes python package xlrd on top of the base for parsing excel files
 
 
 Utility commands
