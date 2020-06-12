@@ -1,0 +1,13 @@
+ARG FULL_TAG=latest
+FROM apluslms/grade-python:$FULL_TAG
+
+RUN apt_install \
+    python3-coverage \
+    python3-pyqt5 \
+ && :
+
+RUN pip_install \
+    "networkx ~= 2.4" \
+ && find /usr/local/lib/python* -type d -regex '.*/locale/[a-z_A-Z]+' -not -regex '.*/\(en\|fi\|sv\)' -print0 | xargs -0 rm -rf \
+ && find /usr/local/lib/python* -type d -name 'tests' -print0 | xargs -0 rm -rf \
+ && :
