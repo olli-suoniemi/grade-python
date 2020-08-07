@@ -11,6 +11,8 @@ Images are tagged with Python and grading-base versions in format `<python>-<gra
 Version tag can also include `uN` meaning _update N_ where N is an increasing number.
 The update part is used to indicate updates to the image, where software versions did not change.
 For an example, `3.5-2.0u1` includes Python 3.5 on top of grading-base 2.0 and has one update after first release.
+Newer tags include the version of Python grader-utils in the middle of the tag.
+For example, `3.7-3.3-3.1` includes Python 3.7 and Python grader-utils 3.3 on top of grading-base 3.1.
 
 There is also few additional versions of the image:
 
