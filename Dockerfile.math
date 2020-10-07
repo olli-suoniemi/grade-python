@@ -2,6 +2,7 @@ ARG FULL_TAG=latest
 FROM apluslms/grade-python:$FULL_TAG
 
 RUN apt_install \
+    bc \
     python3-matplotlib \
     python3-tk \
     python3-scipy \
