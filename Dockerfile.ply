@@ -1,0 +1,9 @@
+ARG FULL_TAG=latest
+FROM apluslms/grade-python:$FULL_TAG
+
+# PLY is yet another implementation of lex and yacc for Python,
+# in other words, a parser and lexer generator.
+
+RUN apt_install \
+    python3-ply \
+ && :

@@ -21,6 +21,7 @@ There is also few additional versions of the image:
  * `ml-*` includes python packages pandas, scikit-learn and numpy on top of the math layer
  * `rdf-*` includes python package rdflib on top of the base
  * `xls-*` includes python package xlrd on top of the base for parsing excel files
+ * `ply-*` includes the python package PLY (parser and lexer generator)
 
 
 Utility commands
