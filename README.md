@@ -33,8 +33,8 @@ In addition to [grading-base](https://github.com/apluslms/grading-base), this co
 
     Executes `graderutils.main` python module using `capture` wrapper (check [grading-base](https://github.com/apluslms/grading-base)).
     Provided arguments are passed to the python module.
-    If there is no arguments, then the module is executed with `/exercise/test_config.yaml` is the first argument.
-    In other words, if you define graderutils configuration in `test_config.yaml`, you only need to have `graderutils` in config.yaml `cmd` field.
+    If there are no arguments, then the module is executed with `/exercise/test_config.yaml` as the first argument.
+    In other words, if you define graderutils configuration in `test_config.yaml`, you only need to have `graderutils` in the config.yaml `cmd` field.
 
 * `unittest`
 
