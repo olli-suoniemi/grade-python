@@ -7,4 +7,9 @@ RUN apt_install \
     python3-tk \
     python3-scipy \
     python3-numpy \
+ && pip_install \
+# Excel file parser is useful with pandas
+    openpyxl \
+    xlrd \
+    xlwt \
  && :
