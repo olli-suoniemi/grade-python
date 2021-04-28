@@ -3,4 +3,5 @@ FROM apluslms/grade-python:$FULL_TAG
 
 RUN apt_install \
     python3-xlrd \
+    python3-xlwt \
  && :
