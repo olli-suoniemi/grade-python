@@ -1,4 +1,65 @@
 #!/bin/sh
 export PYTHONPATH=/exercise
-[ "$*" ] || set -- /exercise/test_config.yaml
-exec capture -e /feedback/grading-script-errors -- _graderutils_exec "$@"
+export EXERCISE_PATH=/exercise
+
+use_iotester=false
+use_rpyc=false
+while [ "$1" ]; do
+    case "$1" in
+        --use-iotester) use_iotester=true ; shift ;;
+        --use-rpyc) use_rpyc=true ; shift ;;
+        --novalidate) break ;;
+        --container) break ;;
+        --show-config) break ;;
+        --develop-mode) break ;;
+        --) shift ; break ;;
+        -*)
+            echo "ERROR: Invalid option '$1' for $0" >&2
+            echo "NOTE: Ordering of arguments matters" >&2
+            echo "usage: $0 [--use-iotester] [--use-rpyc] [--novalidate] [--container] [--show-config] [--develop-mode] [-- path_to_test_config]" >&2
+            exit 64
+            ;;
+        *) break ;;
+    esac
+done
+
+# Remaining arguments are passed on to graderutils
+[ "$*" ] || set -- "$EXERCISE_PATH"/test_config.yaml
+
+if [ "$use_iotester" = true ]; then
+    export MODEL_PATH=/model
+    export GENERATED_PATH=/generated
+
+    strip_main_calls() {
+        for entry in "$1"/*
+        do
+            path_no_ext=$(echo "$entry" | cut -f 1 -d '.')
+            sed "/^\(\)main\s*(.*)\s*$/d" "$entry" > "$path_no_ext"_nomain.py
+        done
+    }
+
+    cp -a "$EXERCISE_PATH"/model/. "$MODEL_PATH" # Copy model files from /exercise/model to /model because /exercise/model is on a read-only file system
+    mkdir "$GENERATED_PATH" # Directory where files can be random generated in unit tests
+    strip_main_calls "$MODEL_PATH"
+    strip_main_calls "$PWD"
+fi
+
+if [ "$use_rpyc" = true ]; then
+    # Grader is run as root and student code as nobody user
+    export STUDENT_USER=tester
+    export GRADER_USER=root
+    if [ "$use_iotester" = true ]; then
+        chmod -R 775 "$GENERATED_PATH" # GRADER_USER has full permissions and STUDENT_USER has read/execute permissions to GENERATED_PATH
+        chmod -R 770 "$MODEL_PATH" # GRADER_USER has full permissions to MODEL_PATH
+        chmod -R 777 "$PWD" # GRADER_USER and STUDENT_USER have full permissions to PWD (/submission/user)
+    fi
+    exec capture -e /feedback/grading-script-errors -u "root" -- _graderutils_rpyc_exec "$@"
+else
+    # Grader and student code are run as nobody user
+    if [ "$use_iotester" = true ]; then
+        chmod -R 777 "$GENERATED_PATH" # GRADER_USER and STUDENT_USER have full permissions to GENERATED_PATH
+        chmod -R 777 "$MODEL_PATH" # GRADER_USER and STUDENT_USER have full permissions to MODEL_PATH
+        chmod -R 777 "$PWD" # GRADER_USER and STUDENT_USER have full permissions to PWD (/submission/user)
+    fi
+    exec capture -e /feedback/grading-script-errors -- _graderutils_exec "$@"
+fi

@@ -1,0 +1,2 @@
+#!/bin/sh
+python3 -m graderutils.__main__ "$@" | python3 -m graderutils_format.html --grader-container
