@@ -12,4 +12,5 @@ RUN apt_install \
     openpyxl \
     xlrd \
     xlwt \
+    bokeh==2.3.3 \
  && :
