@@ -17,7 +17,7 @@ For example, `3.7-3.3-3.1` includes Python 3.7 and Python grader-utils 3.3 on to
 
 There is also few additional versions of the image:
 
- * `math-*` includes python packages matplotlib, scipy and numpy on top of the base and in addition, openpyxl, xlrd and xlwt for Excel file parsing
+ * `math-*` includes python packages matplotlib, scipy, numpy and bokeh on top of the base and in addition, openpyxl, xlrd and xlwt for Excel file parsing
  * `ml-*` includes python packages pandas, scikit-learn and numpy on top of the math layer
  * `rdf-*` includes python package rdflib on top of the base
  * `xls-*` includes python packages xlrd and xlwt on top of the base for parsing Excel files
