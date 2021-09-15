@@ -29,10 +29,25 @@ Utility commands
 
 In addition to [grading-base](https://github.com/apluslms/grading-base), this container provides following utilities.
 
-* `graderutils [arguments]`
+* `graderutils [--use-iotester] [--use-rpyc] [--novalidate] [--container] [--show-config] [--develop-mode] -- path_to_test_config`
+  * `--use-iotester`
+    * Create the necessary directory structure with the correct permissions required by iotester
+  * `--use-rpyc`
+    * Use RPyC (Remote Python Call) to import and call student code running in a separate process
+  * `--novalidate`
+    * Skip validation of test config
+  * `--container`
+    * This flag should be used when running graderutils inside docker container based on apluslms/grading-base
+  * `--show-config`
+    * Print test configuration into warnings.
+  * `--develop-mode`
+    * Display all unhandled exceptions unformatted.
+    Also implies `--show-config`.
+    By default, exceptions related to improperly configured tests are catched and hidden behind a generic error message.
+    This is to prevent unwanted leaking of grader test details, which might reveal e.g. parts of the model solution, if one is used.
 
     Executes `graderutils.main` python module using `capture` wrapper (check [grading-base](https://github.com/apluslms/grading-base)).
-    Provided arguments are passed to the python module.
+    Provided arguments, except for `--use-iotester` and `--use-rpyc`, are passed to the python module.
     If there are no arguments, then the module is executed with `/exercise/test_config.yaml` as the first argument.
     In other words, if you define graderutils configuration in `test_config.yaml`, you only need to have `graderutils` in the config.yaml `cmd` field.
 
