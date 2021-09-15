@@ -3,7 +3,7 @@ FROM apluslms/grading-base:$BASE_TAG
 
 COPY sbin /usr/local/sbin
 
-ARG GRADER_UTILS_VER=4.0.1
+ARG GRADER_UTILS_VER=4.1
 
 RUN apt_install \
     python3 \
