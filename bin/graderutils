@@ -2,29 +2,30 @@
 export PYTHONPATH=/exercise
 export EXERCISE_PATH=/exercise
 
+# Arguments, except for --use-iotester and --use-rpyc, are collected to variable 'args' and passed on to graderutils
+args=""
 use_iotester=false
 use_rpyc=false
-while [ "$1" ]; do
-    case "$1" in
-        --use-iotester) use_iotester=true ; shift ;;
-        --use-rpyc) use_rpyc=true ; shift ;;
-        --novalidate) break ;;
-        --container) break ;;
-        --show-config) break ;;
-        --develop-mode) break ;;
-        --) shift ; break ;;
+for arg in "$@"; do
+    case "$arg" in
+        --use-iotester) use_iotester=true ;;
+        --use-rpyc) use_rpyc=true ;;
+        --novalidate) args="${args}${arg} " ;;
+        --container) args="${args}${arg} " ;;
+        --show-config) args="${args}${arg} " ;;
+        --develop-mode) args="${args}${arg} " ;;
+        --) args="${args}${arg} " ;;
         -*)
             echo "ERROR: Invalid option '$1' for $0" >&2
-            echo "NOTE: Ordering of arguments matters" >&2
-            echo "usage: $0 [--use-iotester] [--use-rpyc] [--novalidate] [--container] [--show-config] [--develop-mode] [-- path_to_test_config]" >&2
+            echo "usage: $0 [--use-iotester] [--use-rpyc] [--novalidate] [--container] [--show-config] [--develop-mode] -- path_to_test_config" >&2
             exit 64
             ;;
-        *) break ;;
+        *) args="${args}${arg} " ;;
     esac
 done
 
-# Remaining arguments are passed on to graderutils
-[ "$*" ] || set -- "$EXERCISE_PATH"/test_config.yaml
+# If 'args' is empty, use default test_config.yaml path
+[ "$args" ] || args="$EXERCISE_PATH"/test_config.yaml
 
 if [ "$use_iotester" = true ]; then
     export MODEL_PATH=/model
@@ -53,7 +54,7 @@ if [ "$use_rpyc" = true ]; then
         chmod -R 770 "$MODEL_PATH" # GRADER_USER has full permissions to MODEL_PATH
         chmod -R 777 "$PWD" # GRADER_USER and STUDENT_USER have full permissions to PWD (/submission/user)
     fi
-    exec capture -e /feedback/grading-script-errors -u "root" -- _graderutils_rpyc_exec "$@"
+    exec capture -e /feedback/grading-script-errors -u "$GRADER_USER" -- _graderutils_rpyc_exec $args
 else
     # Grader and student code are run as nobody user
     if [ "$use_iotester" = true ]; then
@@ -61,5 +62,5 @@ else
         chmod -R 777 "$MODEL_PATH" # GRADER_USER and STUDENT_USER have full permissions to MODEL_PATH
         chmod -R 777 "$PWD" # GRADER_USER and STUDENT_USER have full permissions to PWD (/submission/user)
     fi
-    exec capture -e /feedback/grading-script-errors -- _graderutils_exec "$@"
+    exec capture -e /feedback/grading-script-errors -- _graderutils_exec $args
 fi
