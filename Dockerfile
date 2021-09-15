@@ -1,4 +1,4 @@
-ARG BASE_TAG=latest
+ARG BASE_TAG=3.5
 FROM apluslms/grading-base:$BASE_TAG
 
 COPY sbin /usr/local/sbin
