@@ -6,7 +6,7 @@ COPY rootfs /
 ARG GRADER_UTILS_VER=4.4
 
 RUN apt_install \
-    python3 \
+    python3.10 \
     python3-pip \
     python3-pytest \
     python3-setuptools \
