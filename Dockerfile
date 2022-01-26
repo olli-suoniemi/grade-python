@@ -1,7 +1,7 @@
 ARG BASE_TAG=latest
 FROM apluslms/grading-base:$BASE_TAG
 
-COPY sbin /usr/local/sbin
+COPY rootfs /
 
 ARG GRADER_UTILS_VER=4.4
 
