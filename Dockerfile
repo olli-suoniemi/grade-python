@@ -3,7 +3,7 @@ FROM apluslms/grading-base:$BASE_TAG
 
 COPY rootfs /
 
-ARG GRADER_UTILS_VER=4.4
+ARG GRADER_UTILS_VER=4.5
 
 RUN apt_install \
     python3 \
