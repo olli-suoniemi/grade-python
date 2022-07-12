@@ -3,7 +3,7 @@ FROM apluslms/grade-python:$FULL_TAG
 
 RUN apt_install \
     python3-coverage \
-    python3-pyqt5 \
+    python3-pyqt6 \
  && :
 
 RUN pip_install \
