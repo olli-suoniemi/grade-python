@@ -3,10 +3,14 @@ FROM apluslms/grade-python:$FULL_TAG
 
 RUN apt_install \
     python3-coverage \
-    python3-pyqt6 \
+    libgl1-mesa-glx \
+    libxkbcommon-x11-0 \
+    libegl1-mesa libegl1 \
+    ffmpeg libsm6 libxext6  -y \
  && :
 
 RUN pip_install \
+    pyqt6 \
     "networkx ~= 2.4" \
  && find /usr/local/lib/python* -type d -regex '.*/locale/[a-z_A-Z]+' -not -regex '.*/\(en\|fi\|sv\)' -print0 | xargs -0 rm -rf \
  && find /usr/local/lib/python* -type d -name 'tests' -print0 | xargs -0 rm -rf \
